@@ -369,6 +369,8 @@ header {
   width: 60%;
   max-width: 600px;
   text-align: center;
+}
+#cart-content1 {
   display: none; /* Hidden by default */
 }
 
