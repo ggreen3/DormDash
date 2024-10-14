@@ -374,6 +374,7 @@ header {
 
 .cart-actions {
   margin-top: 20px;
+  display: none; /* Hidden by default */
 }
 
 .cart-actions button {
