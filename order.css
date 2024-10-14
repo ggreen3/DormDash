@@ -357,7 +357,6 @@ header {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
-  display: none; /* Hidden by default */
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -370,6 +369,7 @@ header {
   width: 60%;
   max-width: 600px;
   text-align: center;
+  display: none; /* Hidden by default */
 }
 
 .cart-actions {
