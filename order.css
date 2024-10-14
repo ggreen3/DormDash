@@ -360,7 +360,6 @@ header {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  display: none; /* Hidden by default */
 }
 
 .cart-content {
@@ -370,6 +369,7 @@ header {
   width: 60%;
   max-width: 600px;
   text-align: center;
+  display: none; /* Hidden by default */
 }
 #cart-overlay {
   display: none; /* Hidden by default */
