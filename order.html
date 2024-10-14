@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>GHOST Pharmacy</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Your CSS file -->
 </head>
 <body>
     <header>
         <h1>GHOST Pharmacy</h1>
-        <input type="text" id="search-bar" placeholder="Search for medicines...">
+        <input type="text" id="search-bar" placeholder="Search for medicines..." />
     </header>
-    
-    <main>
+
+    <div id="medicines">
+        <h2>Pills</h2>
         <div id="pills-carousel" class="carousel"></div>
+        
+        <h2>Drinking</h2>
         <div id="drinking-carousel" class="carousel"></div>
+        
+        <h2>Inhaled</h2>
         <div id="inhaled-carousel" class="carousel"></div>
+    </div>
 
-        <div id="cart">
-            <h2>Your Cart</h2>
-            <div id="cart-items"></div>
-            <button id="checkout-btn">Checkout</button>
-        </div>
-    </main>
+    <div id="cart">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <button id="checkout-btn">Checkout</button>
+    </div>
 
-    <script src="order.js"></script>
+    <script src="order.js"></script> <!-- Your JavaScript file -->
 </body>
 </html>
