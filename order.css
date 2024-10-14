@@ -58,6 +58,7 @@ header {
 @media (max-width: 768px) {
   header {
     flex-direction: column;
+    text-align: center;
   }
   
   #search-bar {
@@ -195,14 +196,44 @@ header {
   .medicine-card {
     width: 45vw; /* Adjust card size on small screens */
   }
+
+  .modal-content {
+    width: 85%; /* Modal adjusts smoothly on medium screens */
+  }
+
+  #orderForm {
+    padding: 15px;
+  }
+
+  .carousel-container {
+    gap: 15px; /* Slightly closer cards on small screens */
+  }
 }
 
 @media (max-width: 480px) {
   .medicine-card {
     width: 90vw; /* Ensure cards fit on small screens */
   }
-  
+
   .modal-content {
     width: 95%; /* Adjust modal width for very small screens */
+  }
+
+  #orderForm {
+    padding: 10px;
+    font-size: 14px; /* Adjust form font size for small devices */
+  }
+
+  .pay-btn {
+    font-size: 14px;
+  }
+
+  header {
+    flex-direction: column;
+  }
+
+  #cart-count {
+    font-size: 12px; /* Adjust cart count text for small screens */
+    padding: 1px 6px;
   }
 }
