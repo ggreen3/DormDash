@@ -65,16 +65,7 @@ searchBar.addEventListener('input', function() {
         `).join('');
     });
 });
- // Function to toggle cart overlay visibility
-        function toggleCartOverlay() {
-            const overlay = document.getElementById("cart-overlay");
-            overlay.style.display = overlay.style.display === "block" ? "none" : "block";
-        }
 
-        // Function to close cart overlay
-        function closeCartOverlay() {
-            document.getElementById("cart-overlay").style.display = "none";
-        }
 // Variables for storing cart items
 let cartItems = [];
 
