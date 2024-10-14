@@ -370,7 +370,7 @@ header {
   max-width: 600px;
   text-align: center;
 }
-#cart-content1 {
+#cart-overlay {
   display: none; /* Hidden by default */
 }
 
