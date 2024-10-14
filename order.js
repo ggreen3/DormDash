@@ -4,22 +4,17 @@ const medicinesByCategory = {
       { name: "Paracetamol", image: "Lluvia de dinero.jpg", description: "Used to treat pain and fever.</br>Ksh.50/unit" },
       { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
       { name: "Amoxicillin", image: "Lluvia de dinero.jpg", description: "Antibiotic for bacterial infections.." },
-      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
       { name: "Aspirin", image: "Lluvia de dinero.jpg", description: "Relieves pain, reduces fever and inflammation." }
     ],
     drinking: [
       { name: "Cough Syrup", image: "Lluvia de dinero.jpg", description: "Used to soothe coughs and sore throats." },
       { name: "Antacid", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." },
-      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
-      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
-      {name: "stomachdrug", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." }
+      { name: "Stomach Drug", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." }
     ],
     inhaled: [
       { name: "Asthma Inhaler", image: "Lluvia de dinero.jpg", description: "Used to treat asthma symptoms." },
       { name: "Nasal Spray", image: "Lluvia de dinero.jpg", description: "Relieves nasal congestion." },
-      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
-      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
-      {name: "Hair spray", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." }
+      { name: "Hair Spray", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." }
     ]
 };
 
@@ -29,10 +24,13 @@ function renderMedicinesByCategory(category, containerId) {
     const medicines = medicinesByCategory[category];
 
     container.innerHTML = medicines.map(medicine => `
-      <div class="medicine-card" onclick="openModal('${medicine.name}')">
+      <div class="medicine-card">
         <img src="${medicine.image}" alt="${medicine.name}">
         <h3>${medicine.name}</h3>
         <p>${medicine.description}</p>
+        <input type="number" id="${medicine.name}-quantity" min="1" value="1" placeholder="Quantity" />
+        <input type="text" id="${medicine.name}-location" placeholder="Pickup Location" />
+        <button onclick="addToCart('${medicine.name}')">Add to Cart</button>
       </div>
     `).join('');
 }
@@ -50,114 +48,52 @@ searchBar.addEventListener('input', function() {
 
     Object.keys(medicinesByCategory).forEach(category => {
         const filteredMedicines = medicinesByCategory[category].filter(medicine =>
-            medicine.name.toLowerCase().includes(searchTerm)
+            medicine.name.toLowerCase().includes(searchTerm) || 
+            medicine.description.toLowerCase().includes(searchTerm)
         );
 
         const containerId = category + '-carousel';
         document.getElementById(containerId).innerHTML = filteredMedicines.map(medicine => `
-          <div class="medicine-card" onclick="openModal('${medicine.name}')">
+          <div class="medicine-card">
             <img src="${medicine.image}" alt="${medicine.name}">
             <h3>${medicine.name}</h3>
             <p>${medicine.description}</p>
+            <input type="number" id="${medicine.name}-quantity" min="1" value="1" placeholder="Quantity" />
+            <input type="text" id="${medicine.name}-location" placeholder="Pickup Location" />
+            <button onclick="addToCart('${medicine.name}')">Add to Cart</button>
           </div>
         `).join('');
     });
 });
 
-// Modal Functionality
-const modal = document.getElementById('order-modal');
-const modalContent = {
-    name: document.getElementById('medicine-name'),
-    image: document.getElementById('medicine-image'),
-    description: document.getElementById('medicine-description'),
-    quantity: document.getElementById('medicine-quantity'),
-    location: document.getElementById('pickup-location'),
-    mpesaRef: document.getElementById('mpesa-ref')
-};
+// Variables for storing cart items
+let cartItems = [];
 
-function openModal(medicineName) {
-    let selectedMedicine;
+// Function to add items to the cart
+function addToCart(medicineName) {
+    const quantityInput = document.getElementById(`${medicineName}-quantity`);
+    const locationInput = document.getElementById(`${medicineName}-location`);
 
-    Object.keys(medicinesByCategory).forEach(category => {
-        const medicine = medicinesByCategory[category].find(m => m.name === medicineName);
-        if (medicine) selectedMedicine = medicine;
-    });
+    const quantity = quantityInput.value;
+    const pickupLocation = locationInput.value;
 
-    if (selectedMedicine) {
-        modalContent.name.textContent = selectedMedicine.name;
-        modalContent.image.src = selectedMedicine.image;
-        modalContent.description.textContent = selectedMedicine.description;
-        modalContent.quantity.value = 1;  // Default quantity
-        modal.style.display = 'block';  // Make sure modal is displayed
-    }
-}
-
-const closeModalBtn = document.querySelector('.close-btn');
-closeModalBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-
-// Handle Payment Button Click
-const payBtn = document.querySelector('.pay-btn');
-payBtn.addEventListener('click', function() {
-    const selectedQuantity = modalContent.quantity.value;
-    const selectedLocation = modalContent.location.value;
-    const mpesaReference = modalContent.mpesaRef.value;
-
-    if (!mpesaReference) {
-        alert("Please enter the M-PESA reference number!");
+    if (quantity <= 0 || !pickupLocation) {
+        alert("Please specify a valid quantity and pickup location!");
         return;
     }
 
-    alert(`You are ordering ${selectedQuantity} units of ${modalContent.name.textContent} to be picked up at ${selectedLocation}. M-PESA Ref No: ${mpesaReference}.`);
-    
-    modal.style.display = 'none';
-});
-
-// Persist Form Input in Local Storage
-const orderForm = document.getElementById('orderForm');
-
-// Load the saved input data from localStorage when the page loads
-window.addEventListener('load', () => {
-    const formInputs = orderForm.elements;
-
-    for (let i = 0; i < formInputs.length; i++) {
-        const input = formInputs[i];
-
-        if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA' || input.tagName === 'SELECT') {
-            const savedInput = localStorage.getItem(input.name || input.id);
-            
-            if (savedInput) {
-                input.value = savedInput; // Restore the saved value
-            }
-        }
-    }
-});
-
-// Save input data to localStorage when user types
-orderForm.addEventListener('input', (event) => {
-    const input = event.target;
-
-    if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA' || input.tagName === 'SELECT') {
-        localStorage.setItem(input.name || input.id, input.value);
-    }
-});
-
-// Variables for storing cart items and initializing the cart section
-let cartItems = [];
-
-function addToCart(medicineName, quantity, pickupLocation, mpesaReference) {
     const item = {
         medicineName,
         quantity,
         pickupLocation,
-        mpesaReference,
+        mpesaImage: null // Placeholder for the uploaded image
     };
+    
     cartItems.push(item);
     renderCartItems();
 }
 
-// Function to render cart items in the cart section
+// Function to render cart items
 function renderCartItems() {
     const cartItemsContainer = document.getElementById('cart-items');
     cartItemsContainer.innerHTML = ''; // Clear previous items
@@ -174,11 +110,20 @@ function renderCartItems() {
             <h3>${item.medicineName}</h3>
             <p>Quantity: ${item.quantity}</p>
             <p>Pickup Location: ${item.pickupLocation}</p>
-            <p>M-Pesa Ref: ${item.mpesaReference}</p>
+            <input type="file" id="mpesa-image-${index}" accept="image/*" onchange="uploadImage(${index}, this.files[0])" />
             <button class="remove-item-btn" onclick="removeCartItem(${index})">Remove</button>
         `;
         cartItemsContainer.appendChild(cartItem);
     });
+}
+
+// Function to upload M-PESA image
+function uploadImage(index, file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        cartItems[index].mpesaImage = e.target.result; // Store image data as base64 string
+    };
+    reader.readAsDataURL(file);
 }
 
 // Function to remove items from the cart
@@ -195,14 +140,7 @@ document.getElementById('checkout-btn').addEventListener('click', function () {
     }
 
     const orderSummary = cartItems.map(item => {
-        return `
-            <li>
-                Medicine: ${item.medicineName} <br>
-                Quantity: ${item.quantity} <br>
-                Pickup Location: ${item.pickupLocation} <br>
-                M-Pesa Ref: ${item.mpesaReference}
-            </li>
-        `;
+        return `Medicine: ${item.medicineName} <br>Quantity: ${item.quantity} <br>Pickup Location: ${item.pickupLocation} <br>M-Pesa Image: <img src="${item.mpesaImage || ''}" style="max-width:100px;" />`;
     }).join('');
 
     const emailBody = `<p>You have placed the following order:</p><ul>${orderSummary}</ul>`;
