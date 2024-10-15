@@ -1,90 +1,84 @@
 /* General Styles */
-/* Video Background */
-
 body {
     font-family: Arial, sans-serif;
     background-color: #141414;
     color: #fff;
     margin: 0;
     padding: 0;
-  }
+}
 
-  /* Styling the header */
+/* Styling the header */
 header {
-  display: block;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #0a0a0a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #0a0a0a;
 }
 
 .header-content {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 #search-bar {
-  padding: 8px;
-  margin-right: 20px;
-  width: 250px;
-}
-
-#cart-icon {
-  position: relative;
-  cursor: pointer;
-}
-
-#cart-icon svg {
-  fill: #f0efef; /* Change color as needed */
-}
-
-#cart-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 8px;
-  font-size: 14px;
-}
-
-  .logo {
-    font-size: 24px;
-    color: #fff;
-  }
-  h2 {
-    color: #1d1c1c; /* black color */
-    text-align: center; /* Center the h2 text */
-    margin-bottom: 20px; /* Adds space below */
-    font-size: 24px; /* Optional: Increase the font size */
-  }
-  
-  /ggreen/
-  #search-bar {
     padding: 10px;
     font-size: 16px;
     border-radius: 5px;
     border: none;
-  }
-  
-  /* Carousel Section */
-  .medicine-carousel {
+    margin-right: 20px;
+    width: 250px;
+}
+
+#cart-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+#cart-icon svg {
+    fill: #f0efef; /* Change color as needed */
+}
+
+#cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 14px;
+}
+
+.logo {
+    font-size: 24px;
+    color: #fff;
+}
+
+h2 {
+    color: #1d1c1c; /* black color */
+    text-align: center; /* Center the h2 text */
+    margin-bottom: 20px; /* Adds space below */
+    font-size: 24px; /* Optional: Increase the font size */
+}
+
+/* Carousel Section */
+.medicine-carousel {
     padding: 20px;
-  }
-  
-  .carousel-container {
+}
+
+.carousel-container {
     display: flex;
     gap: 20px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-  }
-  
-  .carousel-container::-webkit-scrollbar {
+}
+
+.carousel-container::-webkit-scrollbar {
     display: none;
-  }
-  
-  .medicine-card {
+}
+
+.medicine-card {
     background-color: #222;
     border-radius: 8px;
     padding: 20px;
@@ -93,35 +87,38 @@ header {
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease;
-  }
-  
-  .medicine-card img {
+    will-change: transform;
+}
+
+.medicine-card img {
     width: 100%;
     border-radius: 8px;
-  }
-  
-  .medicine-card h3 {
+}
+
+.medicine-card h3 {
     font-size: 18px;
     margin: 10px 0;
-  }
-  
-  .medicine-card p {
+    color: #fff;
+}
+
+.medicine-card p {
     display: none;
     color: #ccc;
     font-size: 14px;
-  }
-  
-  .medicine-card:hover {
+}
+
+.medicine-card:hover {
     transform: scale(1.1);
-  }
-  
-  .medicine-card:hover p {
+    z-index: 2; /* Ensures the hovered card appears above the others */
+}
+
+.medicine-card:hover p {
     display: block;
-  }
-  
-  /* Modal Styles */
-  .modal {
-    display: none;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -129,9 +126,9 @@ header {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background: #fff;
     color: #000;
     margin: 10% auto;
@@ -141,27 +138,27 @@ header {
     max-width: 500px;
     text-align: center;
     position: relative;
-  }
-  
-  .close-btn {
+}
+
+.close-btn {
     position: absolute;
     top: 10px;
     right: 20px;
     font-size: 24px;
     cursor: pointer;
     color: #000;
-  }
-  
-  #medicine-image {
+}
+
+#medicine-image {
     width: 100%;
     border-radius: 10px;
-  }
-  
-  .order-details {
+}
+
+.order-details {
     margin-top: 20px;
-  }
-  
-  .pay-btn {
+}
+
+.pay-btn {
     background-color: #28a745;
     color: #fff;
     border: none;
@@ -169,39 +166,13 @@ header {
     font-size: 18px;
     cursor: pointer;
     border-radius: 5px;
-  }
-  
-  .pay-btn:hover {
+}
+
+.pay-btn:hover {
     background-color: #218838;
-  }
-  
-  /* Modal Styles */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.7); /* Dim the background */
-  }
-  
-  .modal-content {
-    background-color: white;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 60%; /* Width of the modal */
-    text-align: center;
-  }
-  
-  .modal-content img {
-    width: 200px;
-    margin-bottom: 15px;
-  }
-  /* General Styles for the Form */
+}
+
+/* General Styles for the Form */
 #orderForm {
     max-width: 400px; /* Limit the width of the form */
     margin: 20px auto; /* Center the form */
@@ -279,112 +250,66 @@ header {
     margin-top: 20px; /* Space above the message */
 }
 
-  
-  /* Carousel Container */
-.carousel-container {
-    display: flex;
-    overflow-x: auto;
-    gap: 20px;
-    padding: 20px 0;
-  }
-  
-  .medicine-card {
-    min-width: 200px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .medicine-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
-  
-  .medicine-card h3 {
-    margin: 10px 0;
-    font-size: 18px;
-    color: #333;
-  }
-  
- /* .medicine-card p {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .medicine-card:hover {
-    transform: scale(1.05);
-  }*/
-
-  .medicine-card {
-    background-color: #222;
-    border-radius: 8px;
-    padding: 20px;
-    width: 200px;
-    scroll-snap-align: start;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    will-change: transform;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-}
-
-.medicine-card:hover {
-    transform: scale(1.1);
-    z-index: 2; /* Ensures the hovered card appears above the others */
-}
-
-  
-  /* Category Titles */
-  .category-section h2 {
-    margin-left: 20px;
-    font-size: 24px;
-    color: #222;
-    margin-bottom: 10px;
-  }
- 
-
-  /* Cart Overlay Styles */
+/* Cart Overlay Styles */
 .cart-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none; /* Hidden by default */
 }
 
 .cart-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  width: 60%;
-  max-width: 600px;
-  text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 600px;
+    text-align: center;
 }
 
 .cart-actions {
-  margin-top: 20px;
-  display: none; /* Hidden by default */
+    margin-top: 20px;
+    display: none; /* Hidden by default */
 }
 
 .cart-actions button {
-  padding: 10px 20px;
-  margin: 5px;
-  cursor: pointer;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
 }
 
 .close-cart {
-  cursor: pointer;
-  float: right;
-  font-size: 20px;
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    #search-bar {
+        width: 100%; /* Full width on smaller screens */
+        margin: 10px 0;
+    }
+
+    .carousel-container {
+        flex-direction: column; /* Stack items vertically */
+    }
+
+    .medicine-card {
+        width: 100%; /* Full width on smaller screens */
+    }
+
+    .modal-content {
+        width: 90%; /* Full width on smaller screens */
+    }
+
+    #orderForm {
+        width: 90%; /* Full width on smaller screens */
+    }
 }
