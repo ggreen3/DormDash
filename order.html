@@ -28,7 +28,6 @@
           <span class="close-cart">&times;</span>
           <h2>Your Cart</h2>
           <div id="cart-items-container"></div>
-          <div id="cart-timer" style="font-size: 18px;"></div>
           <div class="cart-actions">
             <button id="confirm-order-btn">Confirm Order</button>
             <button id="cancel-order-btn">Cancel Order</button>
@@ -36,19 +35,17 @@
         </div>
       </div>
 
-      <!-- Pills Category -->
+      <!-- Product Sections -->
       <section class="category-section" id="pills-section">
         <h2>Pills</h2>
         <div class="carousel-container" id="pills-carousel"></div>
       </section>
 
-      <!-- Drinking Medicine Category -->
       <section class="category-section" id="drinking-section">
         <h2>Drinking Medicine</h2>
         <div class="carousel-container" id="drinking-carousel"></div>
       </section>
 
-      <!-- Inhaled Medicine Category -->
       <section class="category-section" id="inhaled-section">
         <h2>Inhaled Medicine</h2>
         <div class="carousel-container" id="inhaled-carousel"></div>
@@ -58,182 +55,39 @@
       <div id="order-modal" class="modal">
         <div class="modal-content">
           <span class="close-btn">&times;</span>
-          <div class="order-details">
-            <h2 id="medicine-name">Medicine Name</h2>
-            <img id="medicine-image" src="" alt="Medicine Image">
-            <p id="medicine-description">Description here...</p>
+          <h2 id="medicine-name">Medicine Name</h2>
+          <img id="medicine-image" src="" alt="Medicine Image">
+          <p id="medicine-description">Description here...</p>
 
-            <form id="orderForm">
-              <h2>Place Your Order</h2>
-              <div class="quantity-section">
-                  <label for="medicine-quantity">Quantity:</label>
-                  <input type="number" id="medicine-quantity" min="1" value="1" required>
-              </div>
-              <div class="location-section">
-                  <label for="pickup-location">Select Pickup Location:</label>
-                  <select id="pickup-location" required>
-                      <option value="Pharmacy A">Pharmacy A</option>
-                      <option value="Pharmacy B">Pharmacy B</option>
-                      <option value="Pharmacy C">Pharmacy C</option>
-                  </select>
-              </div>
-              <div class="mpesa-section">
-                  <label for="mpesa-ref">M-PESA Reference Number:</label>
-                  <input type="text" id="mpesa-ref" placeholder="Enter your M-PESA Ref No" required>
-              </div>
-              <div class="payment-section">
-                  <h3>Pay with M-PESA (Till No: 5988131)</h3>
-                  <button type="submit">Complete Payment</button>
-              </div>
-              <div id="thankYouMessage" style="display: none;">Thank you for your order!</div>
-            </form>
-            <div id="timer" style="display:none; font-size: 20px; color: #333;"></div>
-          </div>
+          <form id="orderForm">
+            <h2>Place Your Order</h2>
+            <div class="quantity-section">
+              <label for="medicine-quantity">Quantity:</label>
+              <input type="number" id="medicine-quantity" min="1" value="1" required>
+            </div>
+            <div class="location-section">
+              <label for="pickup-location">Select Pickup Location:</label>
+              <select id="pickup-location" required>
+                <option value="Pharmacy A">Pharmacy A</option>
+                <option value="Pharmacy B">Pharmacy B</option>
+                <option value="Pharmacy C">Pharmacy C</option>
+              </select>
+            </div>
+            <div class="mpesa-section">
+              <label for="mpesa-ref">M-PESA Reference Number:</label>
+              <input type="text" id="mpesa-ref" placeholder="Enter your M-PESA Ref No" required>
+            </div>
+            <div class="payment-section">
+              <h3>Pay with M-PESA (Till No: 5988131)</h3>
+              <button type="submit">Complete Payment</button>
+            </div>
+            <div id="thankYouMessage" style="display: none;">Thank you for your order!</div>
+          </form>
         </div>
       </div>
 
       <script>
-        let cart = []; // Array to store cart items
-
-        // Function to add items to the cart
-        function addToCart(item) {
-          const existingItem = cart.find(cartItem => cartItem.id === item.id);
-          if (existingItem) {
-            existingItem.quantity += item.quantity;
-          } else {
-            cart.push(item);
-          }
-          updateCartCount();
-          displayCartItems();
-        }
-
-        // Update the cart count in the header
-        function updateCartCount() {
-          document.getElementById('cart-count').innerText = cart.length;
-        }
-
-        // Display cart items in the cart overlay
-        function displayCartItems() {
-          const cartItemsContainer = document.getElementById('cart-items-container');
-          cartItemsContainer.innerHTML = ''; // Clear existing items
-          
-          cart.forEach(item => {
-            const cartItem = document.createElement('div');
-            cartItem.innerHTML = `
-              <p>${item.name} (x${item.quantity})</p>
-            `;
-            cartItemsContainer.appendChild(cartItem);
-          });
-        }
-
-        // Event listener for the 'Add to Cart' button
-        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-          button.addEventListener('click', (e) => {
-            const medicineId = e.target.getAttribute('data-id'); // Assuming you have data-id for each medicine
-            const medicineName = e.target.getAttribute('data-name');
-            const medicineImage = e.target.getAttribute('data-image'); // Optional if you want to show images in the cart
-            const medicineQuantity = 1; // Change this to grab the quantity input if needed
-
-            addToCart({
-              id: medicineId,
-              name: medicineName,
-              image: medicineImage,
-              quantity: medicineQuantity
-            });
-          });
-        });
-
-        // Order form submission
-        document.getElementById('orderForm').addEventListener('submit', function(event) {
-          event.preventDefault();
-
-          const quantity = document.getElementById('medicine-quantity').value;
-          const pickupLocation = document.getElementById('pickup-location').value;
-          const mpesaReference = document.getElementById('mpesa-ref').value;
-
-          // Prepare the email request data
-          const requestData = {
-            subject: "New Pharmacy Order",
-            body: `<p>Order Details:</p>
-                   <ul>
-                       <li>Quantity: ${quantity}</li>
-                       <li>Pickup Location: ${pickupLocation}</li>
-                       <li>M-Pesa Reference: ${mpesaReference}</li>
-                   </ul>`,
-            to: "mail" // replace with your email
-          };
-
-          // Send the email via fetch
-          fetch("https://backend.buildpicoapps.com/aero/run/self-email-api?pk=v1-Z0FBQUFBQm1XYWNNN1N1T09oRWdNTDNMTERVOUI4bEFSWWRkSURVdXdCSDhaMjJ3RjdSSkxvRjZoc2d4eXlNVkhnV05vQWxMelRBTjZiRi0wb2JkNHZ0WlM1V3pGdzhOUUE9PQ==", {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.status === 'success') {
-              alert('Your order has been submitted successfully!');
-              document.getElementById('orderForm').style.display = 'none';
-              document.getElementById('thankYouMessage').style.display = 'block';
-              startTimer(30); // Start the 30-minute timer
-            } else {
-              alert('There was an error submitting your order. Please try again.');
-              console.error(data);
-            }
-          })
-          .catch(error => {
-            alert('An error occurred while submitting your order. Please check your internet connection.');
-            console.error(error);
-          });
-        });
-
-        // Timer function
-        function startTimer(minutes) {
-          const timerDisplay = document.getElementById('timer');
-          let timeRemaining = minutes * 60;
-
-          timerDisplay.style.display = 'block';
-          const interval = setInterval(() => {
-            const minutesLeft = Math.floor(timeRemaining / 60);
-            const secondsLeft = timeRemaining % 60;
-
-            timerDisplay.innerHTML = `Time remaining: ${minutesLeft}m ${secondsLeft < 10 ? '0' : ''}${secondsLeft}s`;
-
-            if (timeRemaining <= 0) {
-              clearInterval(interval);
-              timerDisplay.innerHTML = 'Time is up!';
-            }
-            timeRemaining--;
-          }, 1000);
-        }
-
-        // Show the cart overlay
-        document.getElementById('cart-icon').addEventListener('click', () => {
-          document.getElementById('cart-overlay').style.display = 'block';
-        });
-
-        // Close the cart overlay
-        document.querySelector('.close-cart').addEventListener('click', () => {
-          document.getElementById('cart-overlay').style.display = 'none';
-        });
-
-        // Cancel order button functionality
-        document.getElementById('cancel-order-btn').addEventListener('click', () => {
-          cart = []; // Clear the cart
-          updateCartCount();
-          displayCartItems();
-          alert('Order has been canceled.');
-          document.getElementById('cart-overlay').style.display = 'none';
-        });
-
-        // Confirm order button functionality
-        document.getElementById('confirm-order-btn').addEventListener('click', () => {
-          alert('Order confirmed!');
-          document.getElementById('cart-overlay').style.display = 'none';
-        });
-
+        // JavaScript functionalities will be added later
       </script>
 </body>
 </html>
