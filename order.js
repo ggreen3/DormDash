@@ -1,20 +1,25 @@
 // Categorized Medicines Data
 const medicinesByCategory = {
     pills: [
-        { name: "Paracetamol", image: "Lluvia de dinero.jpg", description: "Used to treat pain and fever.</br>Ksh.50/unit" },
-        { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
-        { name: "Amoxicillin", image: "Lluvia de dinero.jpg", description: "Antibiotic for bacterial infections." },
-        { name: "Aspirin", image: "Lluvia de dinero.jpg", description: "Relieves pain, reduces fever and inflammation." }
+      { name: "Paracetamol", image: "Lluvia de dinero.jpg", description: "Used to treat pain and fever.</br>Ksh.50/unit" },
+      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
+      { name: "Amoxicillin", image: "Lluvia de dinero.jpg", description: "Antibiotic for bacterial infections.." },
+      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
+      { name: "Aspirin", image: "Lluvia de dinero.jpg", description: "Relieves pain, reduces fever and inflammation." }
     ],
     drinking: [
-        { name: "Cough Syrup", image: "Lluvia de dinero.jpg", description: "Used to soothe coughs and sore throats." },
-        { name: "Antacid", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." },
-        { name: "Stomach Drug", image: "Lluvia de dinero.jpg", description: "Used for stomach pain relief." }
+      { name: "Cough Syrup", image: "Lluvia de dinero.jpg", description: "Used to soothe coughs and sore throats." },
+      { name: "Antacid", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." },
+      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
+      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
+      {name: "stomachdrug", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." }
     ],
     inhaled: [
-        { name: "Asthma Inhaler", image: "Lluvia de dinero.jpg", description: "Used to treat asthma symptoms." },
-        { name: "Nasal Spray", image: "Lluvia de dinero.jpg", description: "Relieves nasal congestion." },
-        { name: "Hair Spray", image: "Lluvia de dinero.jpg", description: "Used for hair styling." }
+      { name: "Asthma Inhaler", image: "Lluvia de dinero.jpg", description: "Used to treat asthma symptoms." },
+      { name: "Nasal Spray", image: "Lluvia de dinero.jpg", description: "Relieves nasal congestion." },
+      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
+      { name: "Ibuprofen", image: "Lluvia de dinero.jpg", description: "Used to reduce fever and treat pain or inflammation." },
+      {name: "Hair spray", image: "Lluvia de dinero.jpg", description: "Neutralizes stomach acid for heartburn relief." }
     ]
 };
 
@@ -22,12 +27,6 @@ const medicinesByCategory = {
 function renderMedicinesByCategory(category, containerId) {
     const container = document.getElementById(containerId);
     const medicines = medicinesByCategory[category];
-
-    // Check if medicines exist for the category before rendering
-    if (!medicines) {
-        container.innerHTML = '<p>No medicines available in this category.</p>';
-        return;
-    }
 
     container.innerHTML = medicines.map(medicine => `
       <div class="medicine-card" onclick="openModal('${medicine.name}')">
@@ -46,7 +45,7 @@ renderMedicinesByCategory('inhaled', 'inhaled-carousel');
 // Search Functionality
 const searchBar = document.getElementById('search-bar');
 
-searchBar.addEventListener('input', function () {
+searchBar.addEventListener('input', function() {
     const searchTerm = searchBar.value.toLowerCase();
 
     Object.keys(medicinesByCategory).forEach(category => {
@@ -55,13 +54,13 @@ searchBar.addEventListener('input', function () {
         );
 
         const containerId = category + '-carousel';
-        document.getElementById(containerId).innerHTML = filteredMedicines.length ? filteredMedicines.map(medicine => `
+        document.getElementById(containerId).innerHTML = filteredMedicines.map(medicine => `
           <div class="medicine-card" onclick="openModal('${medicine.name}')">
             <img src="${medicine.image}" alt="${medicine.name}">
             <h3>${medicine.name}</h3>
             <p>${medicine.description}</p>
           </div>
-        `).join('') : '<p>No results found.</p>'; // Handle no results found
+        `).join('');
     });
 });
 
@@ -79,7 +78,6 @@ const modalContent = {
 function openModal(medicineName) {
     let selectedMedicine;
 
-    // Find the selected medicine in all categories
     Object.keys(medicinesByCategory).forEach(category => {
         const medicine = medicinesByCategory[category].find(m => m.name === medicineName);
         if (medicine) selectedMedicine = medicine;
@@ -88,21 +86,20 @@ function openModal(medicineName) {
     if (selectedMedicine) {
         modalContent.name.textContent = selectedMedicine.name;
         modalContent.image.src = selectedMedicine.image;
-        modalContent.description.innerHTML = selectedMedicine.description; // Allow HTML for descriptions
+        modalContent.description.textContent = selectedMedicine.description;
         modalContent.quantity.value = 1;  // Default quantity
-        modal.style.display = 'block';  // Show modal
+        modal.style.display = 'block';  // Make sure modal is displayed
     }
 }
 
-// Close Modal Button
 const closeModalBtn = document.querySelector('.close-btn');
-closeModalBtn.addEventListener('click', function () {
+closeModalBtn.addEventListener('click', function() {
     modal.style.display = 'none';
 });
 
 // Handle Payment Button Click
 const payBtn = document.querySelector('.pay-btn');
-payBtn.addEventListener('click', function () {
+payBtn.addEventListener('click', function() {
     const selectedQuantity = modalContent.quantity.value;
     const selectedLocation = modalContent.location.value;
     const mpesaReference = modalContent.mpesaRef.value;
@@ -112,9 +109,8 @@ payBtn.addEventListener('click', function () {
         return;
     }
 
-    alert(`You are ordering ${selectedQuantity} units of ${modalContent.name.textContent} to be picked up at ${selectedLocation}. M-PESA Ref No: ${mpesaReference}.`);
-
-    addToCart(modalContent.name.textContent, selectedQuantity, selectedLocation, mpesaReference);
+    alert(You are ordering ${selectedQuantity} units of ${modalContent.name.textContent} to be picked up at ${selectedLocation}. M-PESA Ref No: ${mpesaReference}.);
+    
     modal.style.display = 'none';
 });
 
@@ -130,7 +126,7 @@ window.addEventListener('load', () => {
 
         if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA' || input.tagName === 'SELECT') {
             const savedInput = localStorage.getItem(input.name || input.id);
-
+            
             if (savedInput) {
                 input.value = savedInput; // Restore the saved value
             }
@@ -150,7 +146,6 @@ orderForm.addEventListener('input', (event) => {
 // Variables for storing cart items and initializing the cart section
 let cartItems = [];
 
-// Function to add items to the cart
 function addToCart(medicineName, quantity, pickupLocation, mpesaReference) {
     const item = {
         medicineName,
@@ -199,16 +194,18 @@ document.getElementById('checkout-btn').addEventListener('click', function () {
         return;
     }
 
-    const orderSummary = cartItems.map(item => `
-        <li>
-            Medicine: ${item.medicineName} <br>
-            Quantity: ${item.quantity} <br>
-            Pickup Location: ${item.pickupLocation} <br>
-            M-Pesa Ref: ${item.mpesaReference}
-        </li>
-    `).join('');
+    const orderSummary = cartItems.map(item => {
+        return `
+            <li>
+                Medicine: ${item.medicineName} <br>
+                Quantity: ${item.quantity} <br>
+                Pickup Location: ${item.pickupLocation} <br>
+                M-Pesa Ref: ${item.mpesaReference}
+            </li>
+        `;
+    }).join('');
 
-    const emailBody = `<p>You have placed the following order:</p><ul>${orderSummary}</ul>`;
+    const emailBody = <p>You have placed the following order:</p><ul>${orderSummary}</ul>;
 
     // Email sending logic (replace your backend API link)
     const requestData = {
@@ -217,24 +214,26 @@ document.getElementById('checkout-btn').addEventListener('click', function () {
         to: 'mail' // Replace with your actual recipient email address
     };
 
-    fetch("https://backend.buildpicoapps.com/aero/run/self-email-api?pk=v1-Z0FBQUFBQm1XYWNNN1N1T09oRWdNTDNMTERVOUI4bEFSWWRkSURVdXdCSDhaMjJ3RjdSSkxvRjZoc2d4eXlNVkhnVnY4WE85dHozUUN1Vnl3VGN5c2R0UnB0dUJFNXRtY2E5WlplY1Z4RGtvVXZpb0pSbk1oQm5jWEhzSDhzd0NMMi4uZA==", {
-        method: "POST",
+    fetch("https://backend.buildpicoapps.com/aero/run/self-email-api?pk=v1-Z0FBQUFBQm1XYWNNN1N1T09oRWdNTDNMTERVOUI4bEFSWWRkSURVdXdCSDhaMjJ3RjdSSkxvRjZoc2d4eXlNVkhnV05vQWxMelRBTjZiRi0wb2JkNHZ0WlM1V3pGdzhOUUE9PQ==", {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestData)
     })
-    .then(response => {
-        if (response.ok) {
-            alert('Your order has been placed successfully!');
-            cartItems = []; // Clear cart after order
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Your order has been submitted successfully!');
+            cartItems = []; // Clear the cart after successful order
             renderCartItems();
         } else {
-            alert('There was an error placing your order.');
+            alert('There was an issue processing your order.');
+            console.error(data);
         }
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert('An unexpected error occurred.');
+        alert('There was an error submitting your order. Please try again.');
+        console.error(error);
     });
 });
