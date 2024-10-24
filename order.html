@@ -151,7 +151,7 @@ function startTimer() {
     let timerDuration = 30 * 60; // 30 minutes in seconds
     const timerDisplay = document.getElementById('timer');
     timerDisplay.style.display = 'block'; // Show the timer
-    timerDisplay.textContent = Timer: 30:00; // Initialize display
+    timerDisplay.textContent = `Timer: 30:00`; // Initialize display
 
     const countdown = setInterval(() => {
         if (timerDuration <= 0) {
@@ -163,7 +163,7 @@ function startTimer() {
         timerDuration--; // Decrement the timer
         const minutes = Math.floor(timerDuration / 60);
         const seconds = timerDuration % 60;
-        timerDisplay.textContent = Timer: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')};
+        timerDisplay.textContent = `Timer: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     }, 1000); // Update every second
 }
 
