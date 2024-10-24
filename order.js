@@ -109,7 +109,7 @@ payBtn.addEventListener('click', function() {
         return;
     }
 
-    alert(You are ordering ${selectedQuantity} units of ${modalContent.name.textContent} to be picked up at ${selectedLocation}. M-PESA Ref No: ${mpesaReference}.);
+    alert(`You are ordering ${selectedQuantity} units of ${modalContent.name.textContent} to be picked up at ${selectedLocation}. M-PESA Ref No: ${mpesaReference}.`);
     
     modal.style.display = 'none';
 });
@@ -205,7 +205,7 @@ document.getElementById('checkout-btn').addEventListener('click', function () {
         `;
     }).join('');
 
-    const emailBody = <p>You have placed the following order:</p><ul>${orderSummary}</ul>;
+    const emailBody = `<p>You have placed the following order:</p><ul>${orderSummary}</ul>`;
 
     // Email sending logic (replace your backend API link)
     const requestData = {
